@@ -6,7 +6,7 @@ It provides a Lua interface that allows addon code to interact with server comma
 ## Supported branches
 | Branch  | as of commit                                                                                                  |
 | ------- | ------------------------------------------------------------------------------------------------------------- |
-| `3.3.5` | [`508c9d2`](https://github.com/azerothcore/azerothcore-wotlk/commit/ebf5f6710a0de5efa3067d3b58491ef8d25b8ae8) |
+| `3.3.5` | [`ebf5f67`](https://github.com/azerothcore/azerothcore-wotlk/commit/ebf5f6710a0de5efa3067d3b58491ef8d25b8ae8) |
 
 ## API
 ### LibAzerothCore::IsAzerothCore
