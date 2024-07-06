@@ -1,4 +1,4 @@
-local L = LibStub and LibStub:NewLibrary("LibTrinityCore-1.0",6)
+local L = LibStub and LibStub:NewLibrary("LibAzerothCore-1.0",6)
 if not L then return end
 
 local print, ipairs, assert, floor, tinsert =
@@ -16,7 +16,7 @@ else
   log_debug_f = dummyfunc
 end
 
-local isTrinity
+local isAzeroth
 local expectedCommands = {}
 local recvBuffers = {}
 local loaders = {}
@@ -42,21 +42,21 @@ frame:SetScript("OnEvent", function(self, event, prefix, message, channel, sende
   if event == "PLAYER_ENTERING_WORLD" then
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("CHAT_MSG_ADDON")
-    SendAddonMessage("TrinityCore", "p0000", "WHISPER", (UnitName("player")))
+    SendAddonMessage("AzerothCore", "p0000", "WHISPER", (UnitName("player")))
     return
   end
   assert(event == "CHAT_MSG_ADDON")
-  if prefix ~= "TrinityCore" then return end
+  if prefix ~= "AzerothCore" then return end
   if sender ~= UnitName("player") then return end
-  if isTrinity == nil then
+  if isAzeroth == nil then
     if message == "p0000" then
-      isTrinity = false
-      log_debug("not trinitycore, got ping back")
+      isAzeroth = false
+      log_debug("not Azerothcore, got ping back")
       self:UnregisterEvent("CHAT_MSG_ADDON")
       doLoaders()
     elseif message == "a0000" then
-      isTrinity = true
-      log_debug("trinitycore detected")
+      isAzeroth = true
+      log_debug("Azerothcore detected")
       doLoaders()
     else
       log_debug_f("got unknown message '%s' before ping reply - unknown source, maybe from before reload?", message)
@@ -96,22 +96,24 @@ frame:SetScript("OnEvent", function(self, event, prefix, message, channel, sende
 end)
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
--- nil if unknown, true if TrinityCore, false if not TrinityCore (or unsupported version)
-function L:IsTrinityCore() return isTrinity end
--- passed func will be called with no arguments once a supported TrinityCore version is detected
-function L:RegisterLoader(func) if isTrinity == nil then tinsert(loaders,func) else func() end end
+-- nil if unknown, true if AzerothCore, false if not AzerothCore (or unsupported version)
+function L:IsAzerothCore() return isAzeroth end
+-- passed func will be called with no arguments once a supported AzerothCore version is detected
+function L:RegisterLoader(func) if isAzeroth == nil then tinsert(loaders,func) else func() end end
 -- Issue command to server. Callback will receive (success, array of lines) on command finish.
 function L:DoCommand(cmd, callback, humanReadable)
-  if isTrinity == nil then
+  if isAzeroth == nil then
     self:RegisterLoader(function() L:DoCommand(cmd,callback,humanReadable) end) -- delay until detection finishes
     return
   end
-  if isTrinity == false then
-    callback(false, {"Server is not running a supported TrinityCore version"})
+  if isAzeroth == false then
+    callback(false, {"Server is not running a supported AzerothCore version"})
     return
+  else
+    callback(false, {"Server is running a supported AzerothCore version"})
   end
   local counter = CommandCounterToString(commandCounter)
   expectedCommands[counter] = callback or dummyfunc
-  SendAddonMessage("TrinityCore", (humanReadable and "h%s%s" or "i%s%s"):format(counter,cmd), "WHISPER", (UnitName("player")))
+  SendAddonMessage("AzerothCore", (humanReadable and "h%s%s" or "i%s%s"):format(counter,cmd), "WHISPER", (UnitName("player")))
   commandCounter = commandCounter+1
 end
