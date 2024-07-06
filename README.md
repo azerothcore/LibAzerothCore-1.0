@@ -4,9 +4,9 @@ LibAzerothCore-1.0 is a library for the World of Warcraft client that integrates
 It provides a Lua interface that allows addon code to interact with server commands in an easy fashion.
 
 ## Supported branches
-| Branch  | as of commit                                                                                            |
-| ------- | ------------------------------------------------------------------------------------------------------- |
-| `3.3.5` | [`508c9d2`](https://github.com/AzerothCore/AzerothCore/commit/508c9d2fc1b20dc2cb40df533e823e1dfe2becc3) |
+| Branch  | as of commit                                                                                                  |
+| ------- | ------------------------------------------------------------------------------------------------------------- |
+| `3.3.5` | [`508c9d2`](https://github.com/azerothcore/azerothcore-wotlk/commit/ebf5f6710a0de5efa3067d3b58491ef8d25b8ae8) |
 
 ## API
 ### LibAzerothCore::IsAzerothCore
